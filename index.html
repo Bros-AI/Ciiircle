@@ -2,8 +2,55 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Circle - Create Your Circle</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#667eea">
+    <title>Ciiircle - Create Your Circle of Extraordinary People</title>
+    <meta name="description" content="Create exclusive invitation-only circles where the smartest, wildest, and most inspiring people you know connect. No algorithms, just human curation.">
+    <meta name="keywords" content="social network, exclusive circles, invitation only, networking, community, human curation, extraordinary people">
+    <meta name="author" content="Gbros AI">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://bros-ai.github.io/Ciiircle/">
+    <meta property="og:title" content="Ciiircle - The Future of Social Networks">
+    <meta property="og:description" content="Create exclusive invitation-only circles where extraordinary people connect. One invitation. One choice. Infinite possibilities.">
+    <meta property="og:image" content="https://bros-ai.github.io/Ciiircle/OGciiircle.webp">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://bros-ai.github.io/Ciiircle/">
+    <meta property="twitter:title" content="Ciiircle - The Future of Social Networks">
+    <meta property="twitter:description" content="Create exclusive invitation-only circles where extraordinary people connect. One invitation. One choice. Infinite possibilities.">
+    <meta property="twitter:image" content="https://bros-ai.github.io/Ciiircle/OGciiircle.webp">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="./favicon.ico">
+    <link rel="canonical" href="https://bros-ai.github.io/Ciiircle/">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Ciiircle",
+        "description": "Create exclusive invitation-only circles where extraordinary people connect. No algorithms, just human curation.",
+        "url": "https://bros-ai.github.io/Ciiircle/",
+        "applicationCategory": "SocialNetworkingApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "creator": {
+            "@type": "Organization",
+            "name": "Gbros AI",
+            "url": "https://github.com/Bros-AI"
+        }
+    }
+    </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         
@@ -21,6 +68,21 @@
             min-height: 100vh;
             color: #ffffff;
             overflow-x: hidden;
+            /* Improve mobile performance */
+            -webkit-overflow-scrolling: touch;
+            /* Prevent text selection on mobile */
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        /* Allow text selection in inputs */
+        .circle-input {
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
         }
         
         @keyframes gradientShift {
@@ -31,11 +93,14 @@
         
         .container {
             min-height: 100vh;
+            min-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             padding: 20px;
+            padding-top: max(20px, env(safe-area-inset-top));
+            padding-bottom: max(20px, env(safe-area-inset-bottom));
             position: relative;
         }
         
@@ -183,6 +248,8 @@
             background: rgba(255, 255, 255, 0.15);
             border-color: rgba(255, 255, 255, 0.4);
             transform: scale(1.02);
+            /* Prevent zoom on iOS */
+            font-size: max(16px, 1em);
         }
         
         .circle-input::placeholder {
@@ -308,28 +375,209 @@
             }
         }
         
+        /* Footer */
+        .credits-footer {
+            margin-top: 60px;
+            padding: 40px 0;
+            text-align: center;
+        }
+        
+        .credits {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .credit-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 12px 20px;
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .credit-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .animated-emoji {
+            font-size: 20px;
+            display: inline-block;
+            animation: bounce 2s ease-in-out infinite;
+        }
+        
+        .animated-emoji:nth-child(1) { animation-delay: 0s; }
+        .animated-emoji:nth-child(2) { animation-delay: 0.5s; }
+        .animated-emoji:nth-child(3) { animation-delay: 1s; }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            40% {
+                transform: translateY(-10px) rotate(5deg);
+            }
+            60% {
+                transform: translateY(-5px) rotate(-5deg);
+            }
+        }
+        
         /* Responsive */
+        /* Responsive Design */
         @media (max-width: 768px) {
             .main-card {
-                padding: 40px 30px;
-                margin: 20px;
+                padding: 30px 20px;
+                margin: 10px;
+                border-radius: 25px;
             }
             
             .logo {
-                font-size: 32px;
+                font-size: 28px;
+                margin-bottom: 30px;
             }
             
             .animated-text {
-                font-size: 20px;
+                font-size: 18px;
+                margin-bottom: 30px;
+            }
+            
+            .circle-creator {
+                margin: 30px 0;
+            }
+            
+            .input-group {
+                margin-bottom: 25px;
+            }
+            
+            .input-group label {
+                font-size: 16px;
+                margin-bottom: 12px;
+            }
+            
+            .circle-input {
+                padding: 16px;
+                font-size: 16px;
+                border-radius: 15px;
+            }
+            
+            .textarea-input {
+                height: 100px;
+            }
+            
+            .generated-circle {
+                padding: 20px;
+                font-size: 14px;
+                border-radius: 20px;
+            }
+            
+            .circle-title {
+                font-size: 18px;
             }
             
             .action-buttons {
                 flex-direction: column;
                 align-items: center;
+                gap: 15px;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 280px;
+                padding: 14px 24px;
+                font-size: 15px;
+            }
+            
+            .credits {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .credit-item {
+                font-size: 14px;
+                padding: 10px 16px;
             }
             
             .orb {
                 display: none;
+            }
+            
+            .word {
+                font-size: 12px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .main-card {
+                padding: 25px 15px;
+                margin: 5px;
+            }
+            
+            .logo {
+                font-size: 24px;
+                margin-bottom: 25px;
+            }
+            
+            .animated-text {
+                font-size: 16px;
+                margin-bottom: 25px;
+            }
+            
+            .circle-input {
+                padding: 14px;
+                font-size: 15px;
+            }
+            
+            .generated-circle {
+                padding: 15px;
+                font-size: 13px;
+                line-height: 1.6;
+            }
+            
+            .btn {
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+        }
+        
+        @media (min-width: 1200px) {
+            .main-card {
+                max-width: 900px;
+                padding: 80px;
+            }
+            
+            .logo {
+                font-size: 48px;
+                margin-bottom: 50px;
+            }
+            
+            .animated-text {
+                font-size: 26px;
+                margin-bottom: 50px;
+            }
+            
+            .circle-input {
+                padding: 22px;
+                font-size: 19px;
+            }
+            
+            .generated-circle {
+                padding: 35px;
+                font-size: 17px;
             }
         }
         
@@ -357,7 +605,7 @@
     
     <div class="container">
         <div class="main-card">
-            <div class="logo">Circle</div>
+            <div class="logo">Ciiircle</div>
             
             <div class="animated-text" id="animatedText">
                 You're about to start something magical...
@@ -400,10 +648,26 @@
             </div>
             
             <div class="action-buttons">
-                <button class="btn btn-primary" onclick="generateCircle()">✨ Create Circle</button>
+                <button class="btn btn-primary" onclick="generateCircle()">✨ Create Ciiircle</button>
                 <button class="btn btn-secondary" onclick="shareCircle()">📱 Share Invitation</button>
+                <a href="https://github.com/Bros-AI/Ciiircle" target="_blank" class="btn btn-secondary">⭐ GitHub</a>
             </div>
         </div>
+        
+        <!-- Footer -->
+        <footer class="credits-footer">
+            <div class="credits">
+                <span class="credit-item">
+                    <span class="animated-emoji">🧠</span> Thinked by Oussama Amar
+                </span>
+                <span class="credit-item">
+                    <span class="animated-emoji">🚀</span> Started by Gbros
+                </span>
+                <span class="credit-item">
+                    <span class="animated-emoji">✨</span> Crafted by Claude
+                </span>
+            </div>
+        </footer>
     </div>
     
     <script>
@@ -411,7 +675,7 @@
         const textSequences = [
             "You're about to start something magical...",
             "One invitation. One choice. Infinite possibilities.",
-            "Create a circle of extraordinary people.",
+            "Create a ciiircle of extraordinary people.",
             "Watch genius connect with genius.",
             "This is how revolutions begin."
         ];
@@ -572,7 +836,7 @@ Welcome to the beginning.
             document.getElementById('generatedCircle').classList.add('show');
             
             // Update animated text
-            document.getElementById('animatedText').textContent = `Your "${circleType}" circle is ready! 🎉`;
+            document.getElementById('animatedText').textContent = `Your "${circleType}" ciiircle is ready! 🎉`;
         }
         
         function shareCircle() {
@@ -580,13 +844,13 @@ Welcome to the beginning.
             
             if (navigator.share) {
                 navigator.share({
-                    title: 'Join my Circle',
+                    title: 'Join my Ciiircle',
                     text: circleContent
                 });
             } else {
                 // Fallback - copy to clipboard
                 navigator.clipboard.writeText(circleContent).then(() => {
-                    alert('Circle invitation copied to clipboard! 📋');
+                    alert('Ciiircle invitation copied to clipboard! 📋');
                 });
             }
         }
