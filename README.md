@@ -53,7 +53,7 @@ Ciiircle is a revolutionary social networking concept that reimagines how we con
 
 > *"Un soir, alors que j'étais seul dans mon bain, je me suis amusé à créer un groupe WhatsApp qui s'appelle : 'the smartest guy I know'..."*
 
-This project was born from a spontaneous social experiment by **Oussama Amar** during a moment of reflection in his bathtub. What started as a playful WhatsApp group became a fascinating exploration of human connection, cultural dynamics, and the power of selective curation.
+This project was born from a spontaneous social experiment by **Oussama Ammar** during a moment of reflection in his bathtub. What started as a playful WhatsApp group became a fascinating exploration of human connection, cultural dynamics, and the power of selective curation.
 
 ### The Original Experiment
 
@@ -416,7 +416,7 @@ copies or substantial portions of the Software.
 <tr>
 <td align="center">
 <h3>🧠 Thinked by</h3>
-<strong>Oussama Amar</strong><br>
+<strong>Oussama Ammar</strong><br>
 <em>The Visionary</em><br>
 💡 Original bathtub experiment<br>
 🎯 Social mechanism design<br>
