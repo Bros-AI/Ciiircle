@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circle - Create Your Circle</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            min-height: 100vh;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+        }
+        
+        /* Floating orbs */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .orb1 {
+            width: 80px;
+            height: 80px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .orb2 {
+            width: 120px;
+            height: 120px;
+            top: 60%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+        
+        .orb3 {
+            width: 60px;
+            height: 60px;
+            bottom: 20%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+        
+        /* Main card */
+        .main-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            padding: 60px;
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .main-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .main-card:hover::before {
+            left: 100%;
+        }
+        
+        .logo {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #ffffff, rgba(255, 255, 255, 0.8));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .animated-text {
+            font-size: 24px;
+            font-weight: 400;
+            margin-bottom: 40px;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.5s forwards;
+            line-height: 1.6;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Circle creation interface */
+        .circle-creator {
+            margin: 40px 0;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 1s forwards;
+        }
+        
+        .input-group {
+            margin-bottom: 30px;
+        }
+        
+        .input-group label {
+            display: block;
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 15px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .circle-input {
+            width: 100%;
+            padding: 20px;
+            border: none;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            font-size: 18px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .circle-input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: scale(1.02);
+        }
+        
+        .circle-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .textarea-input {
+            height: 120px;
+            resize: vertical;
+            text-align: left;
+            padding: 20px;
+        }
+        
+        /* Generated circle display */
+        .generated-circle {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: left;
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            line-height: 1.8;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+        
+        .generated-circle.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .circle-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 20px;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        /* Action buttons */
+        .action-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 40px;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 1.5s forwards;
+        }
+        
+        .btn {
+            padding: 16px 32px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary {
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .btn-primary:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-secondary {
+            background: rgba(0, 0, 0, 0.1);
+            color: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(0, 0, 0, 0.2);
+            color: #ffffff;
+            transform: translateY(-3px);
+        }
+        
+        /* Fun elements */
+        .floating-words {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .word {
+            position: absolute;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.3);
+            font-weight: 300;
+            animation: floatWord 8s linear infinite;
+        }
+        
+        @keyframes floatWord {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-card {
+                padding: 40px 30px;
+                margin: 20px;
+            }
+            
+            .logo {
+                font-size: 32px;
+            }
+            
+            .animated-text {
+                font-size: 20px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .orb {
+                display: none;
+            }
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+    
+    <div class="floating-words" id="floatingWords"></div>
+    
+    <div class="container">
+        <div class="main-card">
+            <div class="logo">Circle</div>
+            
+            <div class="animated-text" id="animatedText">
+                You're about to start something magical...
+            </div>
+            
+            <div class="circle-creator">
+                <div class="input-group">
+                    <label for="circleType">What kind of circle do you want to create?</label>
+                    <input 
+                        type="text" 
+                        id="circleType" 
+                        class="circle-input" 
+                        placeholder="the smartest person I know"
+                    >
+                </div>
+                
+                <div class="input-group">
+                    <label for="firstPerson">Who's the first person you want to invite?</label>
+                    <input 
+                        type="text" 
+                        id="firstPerson" 
+                        class="circle-input" 
+                        placeholder="Enter their name or description"
+                    >
+                </div>
+                
+                <div class="input-group">
+                    <label for="customMessage">Add a personal touch to your invitation:</label>
+                    <textarea 
+                        id="customMessage" 
+                        class="circle-input textarea-input" 
+                        placeholder="Write something that captures why this circle matters to you..."
+                    ></textarea>
+                </div>
+            </div>
+            
+            <div class="generated-circle" id="generatedCircle">
+                <div class="circle-title">Your Circle Invitation</div>
+                <div id="circleContent"></div>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="generateCircle()">✨ Create Circle</button>
+                <button class="btn btn-secondary" onclick="shareCircle()">📱 Share Invitation</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Animated text sequences
+        const textSequences = [
+            "You're about to start something magical...",
+            "One invitation. One choice. Infinite possibilities.",
+            "Create a circle of extraordinary people.",
+            "Watch genius connect with genius.",
+            "This is how revolutions begin."
+        ];
+        
+        let currentTextIndex = 0;
+        
+        function animateText() {
+            const textElement = document.getElementById('animatedText');
+            
+            // Fade out
+            textElement.style.opacity = '0';
+            textElement.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                // Change text
+                textElement.textContent = textSequences[currentTextIndex];
+                currentTextIndex = (currentTextIndex + 1) % textSequences.length;
+                
+                // Fade in
+                textElement.style.opacity = '1';
+                textElement.style.transform = 'translateY(0)';
+            }, 500);
+        }
+        
+        // Start text animation
+        setInterval(animateText, 4000);
+        
+        // Floating words
+        const words = ['smart', 'creative', 'wild', 'kind', 'brilliant', 'inspiring', 'genuine', 'remarkable', 'unique', 'extraordinary'];
+        
+        function createFloatingWord() {
+            const word = document.createElement('div');
+            word.className = 'word';
+            word.textContent = words[Math.floor(Math.random() * words.length)];
+            word.style.left = Math.random() * 100 + 'vw';
+            word.style.animationDelay = Math.random() * 2 + 's';
+            word.style.animationDuration = (8 + Math.random() * 4) + 's';
+            
+            document.getElementById('floatingWords').appendChild(word);
+            
+            // Remove after animation
+            setTimeout(() => {
+                word.remove();
+            }, 12000);
+        }
+        
+        // Create floating words periodically
+        setInterval(createFloatingWord, 3000);
+        
+        // Animated placeholders
+        const circleTypeExamples = [
+            'the smartest person I know',
+            'the wildest guy I know',
+            'the kindest heart in my entourage',
+            'the most creative soul I've met',
+            'the funniest person alive',
+            'the most inspiring woman I know',
+            'the most genuine friend I have',
+            'the coolest artist in my network',
+            'the wisest mentor I've encountered',
+            'the most adventurous spirit I know'
+        ];
+        
+        const personExamples = [
+            'my brilliant friend from Stanford',
+            'that amazing artist I met in Berlin',
+            'my mentor who changed everything',
+            'the entrepreneur who inspires me daily',
+            'my childhood friend who became a genius',
+            'that photographer with the wild stories',
+            'my professor who sees the world differently',
+            'the writer who captures souls in words',
+            'my travel buddy with infinite wisdom',
+            'that musician who speaks in melodies'
+        ];
+        
+        const messageExamples = [
+            'This started as a crazy idea in my bathtub, but I think we\'re onto something revolutionary...',
+            'I believe the most interesting people know the most interesting people. Prove me right.',
+            'In a world of algorithmic noise, let\'s create something beautifully human.',
+            'You know that feeling when you meet someone extraordinary? Let\'s multiply that.',
+            'This isn\'t about networking. This is about connecting souls who make the world more interesting.',
+            'I\'ve been thinking about how the best conversations happen with the most unexpected people...'
+        ];
+        
+        function typeWriter(element, text, speed = 100) {
+            element.placeholder = '';
+            let i = 0;
+            const typing = setInterval(() => {
+                element.placeholder += text.charAt(i);
+                i++;
+                if (i > text.length) {
+                    clearInterval(typing);
+                    // Start erasing after a delay
+                    setTimeout(() => eraseText(element, speed), 2000);
+                }
+            }, speed);
+        }
+        
+        function eraseText(element, speed = 50) {
+            const text = element.placeholder;
+            let i = text.length;
+            const erasing = setInterval(() => {
+                element.placeholder = text.substring(0, i);
+                i--;
+                if (i < 0) {
+                    clearInterval(erasing);
+                }
+            }, speed);
+        }
+        
+        function startPlaceholderAnimation(elementId, examples) {
+            const element = document.getElementById(elementId);
+            let currentIndex = 0;
+            
+            function cycle() {
+                typeWriter(element, examples[currentIndex], 80);
+                currentIndex = (currentIndex + 1) % examples.length;
+                setTimeout(cycle, 4000);
+            }
+            
+            // Start after a short delay
+            setTimeout(cycle, 1000);
+        }
+        
+        // Start placeholder animations
+        window.addEventListener('load', () => {
+            startPlaceholderAnimation('circleType', circleTypeExamples);
+            setTimeout(() => startPlaceholderAnimation('firstPerson', personExamples), 1500);
+            setTimeout(() => startPlaceholderAnimation('customMessage', messageExamples), 3000);
+        });
+
+        // Circle generation
+        function generateCircle() {
+            const circleType = document.getElementById('circleType').value || 'the most amazing person I know';
+            const firstPerson = document.getElementById('firstPerson').value || 'someone special';
+            const customMessage = document.getElementById('customMessage').value;
+            
+            const circleContent = `
+Welcome.
+
+You've been invited because you are, quite simply, ${circleType}. 
+
+This circle is secret. The first rule: you do not talk about it—ever, with anyone, outside this chat.
+
+You now have one privilege: you may invite a single person. Choose carefully. They must be, in your eyes, ${circleType}. After your invitation, you lose this privilege. The same rule will apply to them.
+
+When we reach 30 members, invitations stop. At that moment, we will all introduce ourselves and embark on something epic—details to come.
+
+${customMessage ? '\n' + customMessage + '\n' : ''}
+
+Remember: secrecy, selectivity, and trust. That's all that matters for now.
+
+Welcome to the beginning.
+            `;
+            
+            document.getElementById('circleContent').innerHTML = circleContent.replace(/\n/g, '<br>');
+            document.getElementById('generatedCircle').classList.add('show');
+            
+            // Update animated text
+            document.getElementById('animatedText').textContent = `Your "${circleType}" circle is ready! 🎉`;
+        }
+        
+        function shareCircle() {
+            const circleContent = document.getElementById('circleContent').textContent;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Join my Circle',
+                    text: circleContent
+                });
+            } else {
+                // Fallback - copy to clipboard
+                navigator.clipboard.writeText(circleContent).then(() => {
+                    alert('Circle invitation copied to clipboard! 📋');
+                });
+            }
+        }
+        
+        // Auto-generate preview as user types
+        document.getElementById('circleType').addEventListener('input', function() {
+            if (this.value.length > 3) {
+                setTimeout(generateCircle, 500);
+            }
+        });
+        
+        // Add enter key support
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && e.target.classList.contains('circle-input') && !e.target.classList.contains('textarea-input')) {
+                generateCircle();
+            }
+        });
+        
+        // Sparkle effect on card hover
+        document.querySelector('.main-card').addEventListener('mousemove', function(e) {
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const sparkle = document.createElement('div');
+            sparkle.style.position = 'absolute';
+            sparkle.style.left = x + 'px';
+            sparkle.style.top = y + 'px';
+            sparkle.style.width = '4px';
+            sparkle.style.height = '4px';
+            sparkle.style.background = 'rgba(255, 255, 255, 0.8)';
+            sparkle.style.borderRadius = '50%';
+            sparkle.style.pointerEvents = 'none';
+            sparkle.style.animation = 'sparkle 1s ease-out forwards';
+            
+            this.appendChild(sparkle);
+            
+            setTimeout(() => sparkle.remove(), 1000);
+        });
+        
+        // Add sparkle animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes sparkle {
+                0% {
+                    opacity: 1;
+                    transform: scale(0);
+                }
+                50% {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+                100% {
+                    opacity: 0;
+                    transform: scale(0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
